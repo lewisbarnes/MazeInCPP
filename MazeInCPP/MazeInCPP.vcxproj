@@ -119,6 +119,8 @@
   <ItemGroup>
     <ClInclude Include="Includes.h" />
     <ClInclude Include="Maze.h" />
+    <ClInclude Include="MazeController.h" />
+    <ClInclude Include="Room.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

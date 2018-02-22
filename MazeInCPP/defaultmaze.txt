@@ -1,0 +1,44 @@
+A:
+ east#C;
+ south#F;
+B:
+ south#C;
+C:
+ north#B;
+ east#D;
+ south#G;
+ west#A;
+ trap#H;
+D:
+ east#E;
+ west#C;
+E:
+  west#D;
+F:
+  south#J;
+  trap#K;
+G:
+  north#C;
+H:
+  east#I;
+  south#L;
+  trap#M;
+I:
+  west#H;
+J:
+  north#F;
+K:
+  north#L;
+L:
+  north#H;
+  south#K;
+M:
+  south#N;
+  trap#H;
+N:
+ north#M;
+
+start: A;
+finish: N;
+
+

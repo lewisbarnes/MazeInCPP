@@ -1,5 +1,6 @@
 // Maze.cpp
 #include "Maze.h"
+
 Maze::Maze(std::string maze_map)
 {
 	Room* rooms[5];
@@ -14,6 +15,15 @@ Maze::Maze(std::string maze_map)
 	start_room = rooms[0];
 	finish_room = rooms[3];
 	current_room = get_start_room();
+	/*size_t pos = 0;
+	std::string token;
+	while ((pos = maze_map.find(':')) != std::string::npos)
+	{
+		token = maze_map.substr(0, pos);
+		room_map[token[0]] = new Room(token[0]);
+		maze_map.erase(0, pos + 1);
+		pos = maze_map.find(';');
+	}*/
 }
 void Maze::start_again()
 {

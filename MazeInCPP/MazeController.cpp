@@ -1,5 +1,5 @@
 // MazeController.cpp
-#include "Maze.h"
+#include "MazeController.h"
 using namespace std::chrono_literals;
 MazeController::MazeController()
 {
@@ -85,10 +85,4 @@ void MazeController::start_loop()
 	} while (!current_maze->is_complete());
 	std::cout << "You reached the end of the maze. Well done." << std::endl;
 	std::cout << "Play again? y/n: ";
-	if(std::cin.get()=='y')
-	{
-		std::cin.ignore();
-		current_maze->start_again();
-		start_loop();
-	}
 }

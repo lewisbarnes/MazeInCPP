@@ -1,20 +1,19 @@
 // Room.cpp
-#include "Maze.h"
-
+#include "Room.h"
 Room::Room(char n)
 {
 	name = n;
 }
-
+// Default constructor
 Room::Room()
 {
 }
-
+#pragma region Set Room Links
+// The methods in this region allow setting of the links to other rooms
 void Room::set_north(Room * room)
 {
 	north = room;
 }
-
 void Room::set_east(Room * room)
 {
 	east = room;
@@ -24,17 +23,18 @@ void Room::set_south(Room * room)
 {
 	south = room;
 }
-
 void Room::set_west(Room * room)
 {
 	west = room;
 }
-
 void Room::set_trap(Room * room)
 {
 	trap = room;
 }
+#pragma endregion
 
+#pragma region Get Room Links
+// The methods in this region return the room links to other rooms
 Room * Room::get_north()
 {
 	return north;
@@ -67,7 +67,8 @@ char Room::get_name()
 {
 	return name;
 }
-
+#pragma endregion
+// Return the directions the user can traverse
 std::string Room::get_directions()
 {
 	std::string return_string;
