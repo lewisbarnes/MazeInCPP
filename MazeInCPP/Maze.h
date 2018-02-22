@@ -42,6 +42,7 @@ public:
 	Room * get_finish_room();
 	int move(char direction);
 	Room * current_room;
+	void start_again();
 	bool is_complete();
 };
 

@@ -15,6 +15,10 @@ Maze::Maze(std::string maze_map)
 	finish_room = rooms[3];
 	current_room = get_start_room();
 }
+void Maze::start_again()
+{
+	current_room = start_room;
+}
 Room * Maze::get_current_room()
 {
 	return current_room;
