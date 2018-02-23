@@ -6,3 +6,6 @@
 #include <vector>
 #include <chrono>
 #include <thread>
+#include <fstream>
+#include <algorithm>
+#include "ctype.h"

@@ -3,27 +3,52 @@
 
 Maze::Maze(std::string maze_map)
 {
-	Room* rooms[5];
-	rooms[0] = new Room('A');
-	rooms[1] = new Room('B');
-	rooms[2] = new Room('C');
-	rooms[3] = new Room('D');
-	rooms[0]->set_north(rooms[1]);
-	rooms[1]->set_west(rooms[2]);
-	rooms[2]->set_east(rooms[3]);
-	rooms[1]->set_south(rooms[0]);
-	start_room = rooms[0];
-	finish_room = rooms[3];
-	current_room = get_start_room();
-	/*size_t pos = 0;
-	std::string token;
-	while ((pos = maze_map.find(':')) != std::string::npos)
+	std::vector<std::string> m_map;
+	std::string map;
+	std::string line;
+	std::ifstream input_maze;
+	input_maze.open("default.maz");
+	if (!input_maze)
 	{
-		token = maze_map.substr(0, pos);
+		std::cout << "Unable to open file" << std::endl;
+		exit(1);
+	}
+	if (input_maze.is_open())
+	{
+		while (!input_maze.eof())
+		{
+			std::getline(input_maze, line);
+			map.append(line);
+		}
+	}
+	input_maze.close();
+	size_t pos = 0;
+	std::string token;
+	while ((pos = map.find('@')) != std::string::npos)
+	{
+		token = map.substr(0, pos);
+		token.erase(std::remove_if(token.begin(), token.end(), ::isspace), token.end());
 		room_map[token[0]] = new Room(token[0]);
-		maze_map.erase(0, pos + 1);
-		pos = maze_map.find(';');
-	}*/
+		m_map.push_back(token);
+		map.erase(0, pos + 1);
+	}
+	std::cout << room_map.size() << " rooms total" << std::endl;
+	std::vector<std::string>::iterator it;
+	for (it = m_map.begin(); it != m_map.end(); ++it)
+	{
+		pos = it[0].find(':');
+		std::string room_name = it[0].substr(0, pos);
+		std::cout << room_name << " ";
+		it[0].erase(0, pos + 1);
+		while ((pos = it[0].find(';')) != std::string::npos)
+		{
+			token = it[0].substr(0, pos);
+			token =  token.substr(0, token.find('#'));
+			std::cout << token << " ";
+			it[0].erase(0, pos + 1);
+		}
+		std::cout << std::endl;
+	}
 }
 void Maze::start_again()
 {
