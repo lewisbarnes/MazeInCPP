@@ -96,66 +96,8 @@ bool Maze::is_complete()
 }
 int Maze::move(char direction)
 {
-	std::string* return_string = new std::string;
 	switch (tolower(direction))
 	{
-		case 'n':
-			if(current_room->get_north() == nullptr)
-			{
-				return 0;
-			}
-			else
-			{
-				current_room = current_room->get_north();
-				return 1;
-			}
-			break;
-		case 'e':
-			if (current_room->get_east() == nullptr)
-			{
-				return 0;
-			}
-			else
-			{
-				current_room = current_room->get_east();
-				return 2;
-			}
-			break;
-		case 's':
-			if (current_room->get_south() == nullptr)
-			{
-				return 0;
-			}
-			else
-			{
-				current_room = current_room->get_south();
-				return 3;
-			}
-			break;
-		case 'w':
-			if (current_room->get_west() == nullptr)
-			{
-				return 0;
-			}
-			else
-			{
-				current_room = current_room->get_west();
-				return 4;
-			}
-			break;
-		case 't':
-			if (current_room->get_trap() == nullptr)
-			{
-				return 0;
-			}
-			else
-			{
-				current_room = current_room->get_trap();
-				return 5;
-			}
-			break;
-		default:
-			return 6;
-			break;
+
 	}
 }

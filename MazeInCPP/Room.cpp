@@ -10,63 +10,44 @@ Room::Room()
 }
 #pragma region Set Room Links
 // The methods in this region allow setting of the links to other rooms
-void Room::set_north(Room * room)
+
+void Room::set_link(char dir, Room * room)
 {
-	north = room;
-}
-void Room::set_east(Room * room)
-{
-	east = room;
+	switch (tolower(dir))
+	{
+	case 'n':
+		north = room;
+	case 'e':
+		east = room;
+	case 's':
+		south = room;
+	case 'w':
+		west = room;
+	case 't':
+		trap = room;
+	}
 }
 
-void Room::set_south(Room * room)
+Room * Room::get_link(char dir)
 {
-	south = room;
-}
-void Room::set_west(Room * room)
-{
-	west = room;
-}
-void Room::set_trap(Room * room)
-{
-	trap = room;
-}
-
-void set_links(char dir, Room * room)
-{
-
+	switch (tolower(dir))
+	{
+	case 'n':
+		return north;
+	case 'e':
+		return east;
+	case 's':
+		return south;
+	case 'w':
+		return west;
+	case 't':
+		return trap;
+	}
 }
 #pragma endregion
 
 #pragma region Get Room Links
 // The methods in this region return the room links to other rooms
-Room * Room::get_north()
-{
-	return north;
-}
-Room * Room::get_east()
-{
-	return east;
-}
-Room * Room::get_south()
-{
-	if (south != nullptr)
-	{
-		return south;
-	}
-	else
-	{
-		return nullptr;
-	}
-}
-Room * Room::get_west()
-{
-	return west;
-}
-Room * Room::get_trap()
-{
-	return trap;
-}
 
 char Room::get_name()
 {

@@ -13,11 +13,8 @@ private:
 public:
 	Room(char n);
 	Room();
-	void set_north(Room* room);
-	void set_east(Room* room);
-	void set_south(Room* room);
-	void set_west(Room* room);
-	void set_trap(Room* room);
+	void set_link(char dir, Room* room);
+	Room* get_link(char dir);
 	Room * get_north();
 	Room * get_east();
 	Room * get_south();
