@@ -15,7 +15,7 @@ bool MazeController::collect_input()
 		case no_direction:
 			system("CLS");
 			std::cout << "There is nothing in that direction!" << std::endl;
-			std::cout << "These are the directions you can travel: " << current_maze->current_room->get_directions() << std::endl;
+			std::cout << "These are the directions you can travel: " << current_maze->get_directions() << std::endl;
 			return_val = false;
 			break;
 		case north_direction:
@@ -45,7 +45,7 @@ bool MazeController::collect_input()
 		case wrong_input:
 			system("CLS");
 			std::cout << "That is not a valid direction!" << std::endl;
-			std::cout << "These are the directions you can travel: " << current_maze->current_room->get_directions() << std::endl;
+			std::cout << "These are the directions you can travel: " << current_maze->get_directions() << std::endl;
 			return_val = false;
 			break;
 		default:
@@ -57,9 +57,8 @@ bool MazeController::collect_input()
 }
 void MazeController::display_menu()
 {
-	std::cout << "You got the memes." << std::endl;
 	//std::cout << "You are in room " << current_maze->current_room->get_name() << std::endl;
-	//std::cout << "These are the directions you can travel: " << current_maze->current_room->get_directions() << std::endl;
+	//std::cout << "These are the directions you can travel: " << current_maze->get_directions() << std::endl;
 }
 void MazeController::set_maze(std::string maze_map)
 {

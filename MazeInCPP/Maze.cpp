@@ -31,10 +31,7 @@ Maze::Maze(std::string maze_map)
 		room_name_map.push_back(token);
 		map.erase(0, pos + 1);
 	}
-	// For each entry into room_name_map create associated nodes
-
-
-
+	create_initial_rooms(room_name_map);
 	//Room * A = new Room('A');
 	//Room * B = new Room('B');
 	//Room * C = new Room('C');
@@ -47,8 +44,9 @@ Maze::Maze(std::string maze_map)
 	//finish_room = D;
 }
 
-void Maze::create_initial_rooms(std::vector<std::string> &name_map)
+void Maze::create_initial_rooms(std::vector<std::string> name_map)
 {
+	// For each entry into room_name_map create associated nodes
 	for (std::vector<std::string>::iterator it = name_map.begin(); it != name_map.end(); ++it)
 	{
 		size_t pos = it[0].find(':');
@@ -60,6 +58,16 @@ void Maze::create_initial_rooms(std::vector<std::string> &name_map)
 		}
 		it[0].erase(0, pos + 1);
 	}
+}
+
+void Maze::link_rooms(std::vector<std::string> name_map)
+{
+
+}
+
+std::string Maze::get_directions()
+{
+	return current_room->get_directions();
 }
 
 Maze * Maze::default_maze()

@@ -16,6 +16,8 @@ public:
 	Room * current_room;
 	void start_again();
 	bool is_complete();
-	void create_initial_rooms(std::vector<std::string> &name_map);
+	void create_initial_rooms(std::vector<std::string> name_map);
+	void link_rooms(std::vector<std::string> name_map);
+	std::string get_directions();
 	Maze * default_maze();
 };
