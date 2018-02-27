@@ -3,9 +3,8 @@
 
 Maze::Maze(std::string maze_map)
 {
-	std::vector<std::string> m_map;
+	std::vector<std::string> room_name_map;
 	std::string map;
-	std::string line;
 	std::ifstream input_maze;
 	input_maze.open("default.maz");
 	if (!input_maze)
@@ -13,8 +12,10 @@ Maze::Maze(std::string maze_map)
 		std::cout << "Unable to open file" << std::endl;
 		exit(1);
 	}
+	// Open the file, read to the end and output result to string
 	if (input_maze.is_open())
 	{
+		std::string line;
 		while (!input_maze.eof())
 		{
 			std::getline(input_maze, line);
@@ -22,33 +23,48 @@ Maze::Maze(std::string maze_map)
 		}
 	}
 	input_maze.close();
-	size_t pos = 0;
-	std::string token;
-	while ((pos = map.find('@')) != std::string::npos)
+	// Loop through the map string and split on new line
+	while (size_t pos = map.find(';') != std::string::npos)
 	{
-		token = map.substr(0, pos);
+		std::string token = map.substr(0, pos);
 		token.erase(std::remove_if(token.begin(), token.end(), ::isspace), token.end());
-		room_map[token[0]] = new Room(token[0]);
-		m_map.push_back(token);
+		room_name_map.push_back(token);
 		map.erase(0, pos + 1);
 	}
-	std::cout << room_map.size() << " rooms total" << std::endl;
-	std::vector<std::string>::iterator it;
-	for (it = m_map.begin(); it != m_map.end(); ++it)
+	// For each entry into room_name_map create associated nodes
+
+
+
+	//Room * A = new Room('A');
+	//Room * B = new Room('B');
+	//Room * C = new Room('C');
+	//Room * D = new Room('D');
+	//A->set_north(B);
+	//B->set_east(C);
+	//C->set_west(D);
+	//start_room = A;
+	//current_room = start_room;
+	//finish_room = D;
+}
+
+void Maze::create_initial_rooms(std::vector<std::string> &name_map)
+{
+	for (std::vector<std::string>::iterator it = name_map.begin(); it != name_map.end(); ++it)
 	{
-		pos = it[0].find(':');
+		size_t pos = it[0].find(':');
 		std::string room_name = it[0].substr(0, pos);
-		std::cout << room_name << " ";
-		it[0].erase(0, pos + 1);
-		while ((pos = it[0].find(';')) != std::string::npos)
+		if (it[0][0] != '-')
 		{
-			token = it[0].substr(0, pos);
-			token =  token.substr(0, token.find('#'));
-			std::cout << token << " ";
-			it[0].erase(0, pos + 1);
+			room_list[it[0][0]] = new Room(it[0][0]);
+			std::cout << "Room " << it[0][0] << " created!" << std::endl;
 		}
-		std::cout << std::endl;
+		it[0].erase(0, pos + 1);
 	}
+}
+
+Maze * Maze::default_maze()
+{
+	return nullptr;
 }
 void Maze::start_again()
 {

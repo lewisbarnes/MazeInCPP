@@ -6,7 +6,7 @@ class Maze
 private:
 	Room * start_room;
 	Room * finish_room;
-	std::map<char, Room*> room_map;
+	std::map<char, Room*> room_list;
 public:
 	Maze(std::string maze_map);
 	Room * get_current_room();
@@ -16,4 +16,6 @@ public:
 	Room * current_room;
 	void start_again();
 	bool is_complete();
+	void create_initial_rooms(std::vector<std::string> &name_map);
+	Maze * default_maze();
 };

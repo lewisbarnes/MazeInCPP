@@ -31,6 +31,11 @@ void Room::set_trap(Room * room)
 {
 	trap = room;
 }
+
+void set_links(char dir, Room * room)
+{
+
+}
 #pragma endregion
 
 #pragma region Get Room Links

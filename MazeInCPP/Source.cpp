@@ -2,9 +2,9 @@
 int main(int c, char* v[])
 {
 	MazeController* mc = new MazeController();
-	mc->set_maze("A-B--C\nstart:A\nfinish:C");
-	//Maze* m = new Maze("A:B:C:D:");
-	//mc->start_loop();
+    //mc->set_maze("A-B--C\nstart:A\nfinish:C");
+	mc->start_loop();
+	//Maze* m = new Maze("Memes");
 	getchar();
 	return 0;
 }
