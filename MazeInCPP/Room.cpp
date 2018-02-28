@@ -4,30 +4,43 @@ Room::Room(char n)
 {
 	name = n;
 }
-// Default constructor
+char Room::get_name()
+{
+	return name;
+}
 Room::Room()
 {
-}
-#pragma region Set Room Links
-// The methods in this region allow setting of the links to other rooms
 
+}
 void Room::set_link(char dir, Room * room)
 {
 	switch (tolower(dir))
 	{
 	case 'n':
 		north = room;
+		room->south = this;
+		break;
 	case 'e':
 		east = room;
+		room->west = this;
+		break;
 	case 's':
 		south = room;
+		room->north = this;
+		break;
 	case 'w':
 		west = room;
+		room->east = this;
+		break;
 	case 't':
 		trap = room;
+		room->trap = this;
+		break;
+	default:
+		break;
 	}
 }
-
+// Return connected link based on char passed
 Room * Room::get_link(char dir)
 {
 	switch (tolower(dir))
@@ -42,39 +55,32 @@ Room * Room::get_link(char dir)
 		return west;
 	case 't':
 		return trap;
+	default:
+		return nullptr;
 	}
 }
-#pragma endregion
 
-#pragma region Get Room Links
-// The methods in this region return the room links to other rooms
-
-char Room::get_name()
-{
-	return name;
-}
-#pragma endregion
 // Return the directions the user can traverse
 std::string Room::get_directions()
 {
 	std::string return_string;
-	if (north != nullptr)
+	if (get_link('n') != NULL)
 	{
 		return_string.append("(N)North ");
 	}
-	if (east != nullptr)
+	if (get_link('e') != NULL)
 	{
 		return_string.append("(E)East ");
 	}
-	if (south != nullptr)
+	if (get_link('s') != NULL)
 	{
 		return_string.append("(S)South ");
 	}
-	if (west != nullptr)
+	if (get_link('w') != NULL)
 	{
 		return_string.append("(W)West ");
 	}
-	if (trap != nullptr)
+	if (get_link('t') != NULL)
 	{
 		return_string.append("(T)Trapdoor ");
 	}

@@ -1,69 +1,107 @@
 // Maze.cpp
 #include "Maze.h"
-
 Maze::Maze(std::string maze_map)
 {
-	std::vector<std::string> room_name_map;
-	std::string map;
 	std::ifstream input_maze;
 	input_maze.open("default.maz");
-	if (!input_maze)
+	if (input_maze.bad())
 	{
 		std::cout << "Unable to open file" << std::endl;
 		exit(1);
 	}
-	// Open the file, read to the end and output result to string
+	// Open the file, read it, check for null or empty and push_back to map
 	if (input_maze.is_open())
 	{
+		std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 		std::string line;
 		while (!input_maze.eof())
 		{
+
 			std::getline(input_maze, line);
-			map.append(line);
+			if (!line.empty())
+			{
+				room_string_vector.push_back(line);
+			}
 		}
+		input_maze.close();
+		std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+		float mili = (float)duration / 1000;
 	}
-	input_maze.close();
-	// Loop through the map string and split on new line
-	while (size_t pos = map.find(';') != std::string::npos)
-	{
-		std::string token = map.substr(0, pos);
-		token.erase(std::remove_if(token.begin(), token.end(), ::isspace), token.end());
-		room_name_map.push_back(token);
-		map.erase(0, pos + 1);
-	}
-	create_initial_rooms(room_name_map);
-	//Room * A = new Room('A');
-	//Room * B = new Room('B');
-	//Room * C = new Room('C');
-	//Room * D = new Room('D');
-	//A->set_north(B);
-	//B->set_east(C);
-	//C->set_west(D);
-	//start_room = A;
-	//current_room = start_room;
-	//finish_room = D;
+	create_initial_rooms();
+	current_room = start_room;
 }
 
-void Maze::create_initial_rooms(std::vector<std::string> name_map)
+void Maze::create_initial_rooms()
 {
-	// For each entry into room_name_map create associated nodes
-	for (std::vector<std::string>::iterator it = name_map.begin(); it != name_map.end(); ++it)
+	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+	// For each entry into map create associated nodes
+	for (std::vector<std::string>::iterator it = room_string_vector.begin(); it != room_string_vector.end(); ++it)
 	{
-		size_t pos = it[0].find(':');
-		std::string room_name = it[0].substr(0, pos);
-		if (it[0][0] != '-')
+		std::string line = *it;
+		// Find the first occurrence of a character
+		size_t pos = line.find_first_of(':');
+		// Get the substring before the character position
+		std::string room_name = line.substr(0, pos);
+		if (room_name != "-")
 		{
-			room_list[it[0][0]] = new Room(it[0][0]);
-			std::cout << "Room " << it[0][0] << " created!" << std::endl;
+			// Reject room_name if "start" or "finish"
+			if (!((room_name == "start") || (room_name == "finish")))
+			{
+				room_map[room_name[0]] = new Room(room_name[0]);
+			}
 		}
-		it[0].erase(0, pos + 1);
 	}
+	link_rooms();
+	std::vector<std::string> zero_vec;
+	room_string_vector.swap(zero_vec);
+	std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+	float mili = (float)duration / 1000;
 }
 
-void Maze::link_rooms(std::vector<std::string> name_map)
+void Maze::link_rooms()
 {
+	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+	for (std::vector<std::string>::iterator it = room_string_vector.begin(); it != room_string_vector.end();++it)
+	{
+		std::string line = *it;
+		size_t pos = line.find_first_of(':');
+		std::string room_name = line.substr(0, pos);
+		line.erase(0, pos + 1);
+			if (room_name == "start")
+			{
+				start_room = room_map[line[0]];
+			}
+			if (room_name == "finish")
+			{
+				finish_room = room_map[line[0]];
+			}
+			if (!((room_name == "start") || (room_name == "finish")))
+			{
+				char* direct = "neswt";
+				char current_name = room_name[0];
+				for (size_t i = 0; i < line.size(); ++i)
+				{
+					if (line[i] != '-')
+					{
+						room_map[current_name]->set_link(direct[i], room_map[line[i]]);
+					}
+				}
+			}
 
+	}
+	std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+	float mili = (float)duration / 1000;
+	std::vector<std::string> empty_vec;
+	std::map<char, Room*> empty_map;
+	room_string_vector.swap(empty_vec);
+	room_map.swap(empty_map);
+
+	
 }
+
 
 std::string Maze::get_directions()
 {
@@ -72,7 +110,7 @@ std::string Maze::get_directions()
 
 Maze * Maze::default_maze()
 {
-	return nullptr;
+	return new Maze("0000000484848");
 }
 void Maze::start_again()
 {
@@ -104,8 +142,45 @@ bool Maze::is_complete()
 }
 int Maze::move(char direction)
 {
+	// Switch on input, return int based on response.
 	switch (tolower(direction))
 	{
-
+		case 'n':
+			if (current_room->get_link('n') != NULL) 
+			{
+				current_room = current_room->get_link('n');
+				return 1;
+			}
+			return 0;
+		case 'e':
+			if (current_room->get_link('e') != NULL) 
+			{
+				current_room = current_room->get_link('e');
+				return 2;
+			}
+			return 0;
+		case 's':
+			if (current_room->get_link('s') != NULL) 
+			{
+				current_room = current_room->get_link('s');
+				return 3;
+			}
+			return 0;
+		case 'w':
+			if (current_room->get_link('w') != NULL)
+			{
+				current_room = current_room->get_link('w');
+				return 4;
+			}
+			return 0;
+		case 't':
+			if (current_room->get_link('t') != NULL)
+			{
+				current_room = current_room->get_link('t');
+				return 5;
+			}
+			return 0;
+		default:
+			return 6;
 	}
 }

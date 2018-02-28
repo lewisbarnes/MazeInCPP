@@ -20,28 +20,29 @@ bool MazeController::collect_input()
 			break;
 		case north_direction:
 			system("CLS");
-			std::cout << "You continue ahead into the darkness";
+			std::cout << "You head north";
 			return_val = true;
 			break;
 		case east_direction:
 			system("CLS");
-			std::cout << "You turn to the right and continue ahead";
+			std::cout << "You head east";
 			return_val = true;
 			break;
 		case south_direction:
 			system("CLS");
-			std::cout << "You turn around and go back the way you came";
+			std::cout << "You head south";
 			return_val = true;
 			break;
 		case west_direction:
 			system("CLS");
-			std::cout << "You turn left and continue ahead";
+			std::cout << "You head west";
 			return_val = true;
 			break;
 		case trap_direction:
 			system("CLS");
 			std::cout << "You open the trapdoor and climb through";
 			return_val = true;
+			break;
 		case wrong_input:
 			system("CLS");
 			std::cout << "That is not a valid direction!" << std::endl;
@@ -57,8 +58,8 @@ bool MazeController::collect_input()
 }
 void MazeController::display_menu()
 {
-	//std::cout << "You are in room " << current_maze->current_room->get_name() << std::endl;
-	//std::cout << "These are the directions you can travel: " << current_maze->get_directions() << std::endl;
+	std::cout << "You are in room " << current_maze->current_room->get_name() << std::endl;
+	std::cout << "These are the directions you can travel: " << current_maze->get_directions() << std::endl;
 }
 void MazeController::set_maze(std::string maze_map)
 {
@@ -79,38 +80,43 @@ void MazeController::start_loop()
 	}
 	while (!exited)
 	{
-		display_menu();
-		bool v;
-		do
+		while(!current_maze->is_complete())
 		{
-			v = collect_input();
-		} while (!v);
-		for (int i = 0; i < 3; ++i)
-		{
+			display_menu();
+			bool v;
+			do
+			{
+				v = collect_input();
+			} while (!v);
+			for (int i = 0; i < 3; ++i)
+			{
+				std::this_thread::sleep_for(0.5s);
+				std::cout << '.';
+			}
+			system("CLS");
 			std::this_thread::sleep_for(0.5s);
-			std::cout << '.';
 		}
-		system("CLS");
-		std::this_thread::sleep_for(0.5s);
-	}
-	std::cout << "You reached the end of the maze. Well done." << std::endl;
-	std::cout << "Play again? y/n: ";
-	switch (tolower(std::cin.get()))
-	{
-	case 'y':
-		current_maze->start_again();
-	case 'n' :
-		std::cout << "Bye... see you next time." << std::endl;
-		std::cout << "Exiting";
-		for (int i = 0; i < 3; ++i)
+		std::cout << "You reached the end of the maze. Well done." << std::endl;
+		std::cout << "Play again? y/n: ";
+		switch (tolower(std::cin.get()))
 		{
-			std::this_thread::sleep_for(500ms);
-			std::cout << '.';
+		case 'y':
+			current_maze->start_again();
+			break;
+		case 'n':
+			std::cout << "Bye... see you next time." << std::endl;
+			std::cout << "Exiting";
+			for (int i = 0; i < 3; ++i)
+			{
+				std::this_thread::sleep_for(500ms);
+				std::cout << '.';
+			}
+			std::cout << std::endl;
+			exited = true;
+			break;
+		default:
+			break;
 		}
-		std::cout << std::endl;
-		break;
-	default: 
-		break;
 	}
 }
 
@@ -130,6 +136,7 @@ void MazeController::main_menu()
 		case 1:
 			valid_input_achieved = true;
 			std::cin.clear();
+			system("CLS");
 			current_maze = current_maze->default_maze();
 			break;
 		case 2:

@@ -1,10 +1,9 @@
 #include "MazeController.h"
-int main(int c, char* v[])
+int main(void)
 {
 	MazeController* mc = new MazeController();
-    //mc->set_maze("A-B--C\nstart:A\nfinish:C");
 	mc->start_loop();
-	//Maze* m = new Maze("Memes");
+	//mc->start_loop();
 	getchar();
 	return 0;
 }
