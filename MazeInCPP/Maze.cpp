@@ -1,4 +1,5 @@
 // Maze.cpp
+#include "stdafx.h"
 #include "Maze.h"
 Maze::Maze(std::string maze_map)
 {
@@ -24,6 +25,7 @@ Maze::Maze(std::string maze_map)
 			}
 		}
 		input_maze.close();
+		input_maze.clear();
 		std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
 		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
 		float mili = (float)duration / 1000;
@@ -48,7 +50,7 @@ void Maze::create_initial_rooms()
 			// Reject room_name if "start" or "finish"
 			if (!((room_name == "start") || (room_name == "finish")))
 			{
-				room_map[room_name[0]] = new Room(room_name[0]);
+				room_map[room_name] = new Room(room_name);
 			}
 		}
 	}
@@ -71,22 +73,32 @@ void Maze::link_rooms()
 		line.erase(0, pos + 1);
 			if (room_name == "start")
 			{
-				start_room = room_map[line[0]];
+				pos = line.find_first_of(';');
+				start_room = room_map[line.substr(0, pos)];
+				line.erase(0, pos + 1);
 			}
 			if (room_name == "finish")
 			{
-				finish_room = room_map[line[0]];
+				pos = line.find_first_of(';');
+				finish_room = room_map[line.substr(0, pos)];
+				line.erase(0, pos + 1);
 			}
 			if (!((room_name == "start") || (room_name == "finish")))
 			{
+				std::string linkname;
 				char* direct = "neswt";
-				char current_name = room_name[0];
-				for (size_t i = 0; i < line.size(); ++i)
+				std::string::iterator it1 = line.begin();
+				int i = 0;
+				while (line != "")
 				{
-					if (line[i] != '-')
+					pos = line.find(';');
+					linkname = line.substr(0, pos);
+					if (linkname != "-")
 					{
-						room_map[current_name]->set_link(direct[i], room_map[line[i]]);
+						room_map[room_name]->set_link(direct[i], room_map[linkname]);
 					}
+					line.erase(0, pos + 1);
+					i++;
 				}
 			}
 
@@ -95,7 +107,7 @@ void Maze::link_rooms()
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
 	float mili = (float)duration / 1000;
 	std::vector<std::string> empty_vec;
-	std::map<char, Room*> empty_map;
+	std::map<std::string, Room*> empty_map;
 	room_string_vector.swap(empty_vec);
 	room_map.swap(empty_map);
 
@@ -110,6 +122,7 @@ std::string Maze::get_directions()
 
 Maze * Maze::default_maze()
 {
+
 	return new Maze("0000000484848");
 }
 void Maze::start_again()
@@ -148,6 +161,8 @@ int Maze::move(char direction)
 		case 'n':
 			if (current_room->get_link('n') != NULL) 
 			{
+				move_order.append(current_room->get_name()+"->");
+				std::cout << move_order << std::endl;
 				current_room = current_room->get_link('n');
 				return 1;
 			}
@@ -155,6 +170,8 @@ int Maze::move(char direction)
 		case 'e':
 			if (current_room->get_link('e') != NULL) 
 			{
+				move_order.append(current_room->get_name()+"->");
+				std::cout << move_order << std::endl;
 				current_room = current_room->get_link('e');
 				return 2;
 			}
@@ -162,6 +179,8 @@ int Maze::move(char direction)
 		case 's':
 			if (current_room->get_link('s') != NULL) 
 			{
+				move_order.append(current_room->get_name()+"->");
+				std::cout << move_order << std::endl;
 				current_room = current_room->get_link('s');
 				return 3;
 			}
@@ -169,6 +188,8 @@ int Maze::move(char direction)
 		case 'w':
 			if (current_room->get_link('w') != NULL)
 			{
+				move_order.append(current_room->get_name()+"->");
+				std::cout << move_order << std::endl;
 				current_room = current_room->get_link('w');
 				return 4;
 			}
@@ -176,6 +197,8 @@ int Maze::move(char direction)
 		case 't':
 			if (current_room->get_link('t') != NULL)
 			{
+				move_order.append(current_room->get_name()+"->");
+				std::cout << move_order << std::endl;
 				current_room = current_room->get_link('t');
 				return 5;
 			}

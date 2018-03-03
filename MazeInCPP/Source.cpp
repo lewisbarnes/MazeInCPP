@@ -1,9 +1,9 @@
+// Source.cpp
+#include "stdafx.h"
 #include "MazeController.h"
-int main(void)
+void main(void)
 {
+	// Create an instance of MazeController and start the loop
 	MazeController* mc = new MazeController();
 	mc->start_loop();
-	//mc->start_loop();
-	getchar();
-	return 0;
 }

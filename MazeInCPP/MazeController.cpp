@@ -1,4 +1,5 @@
 // MazeController.cpp
+#include "stdafx.h"
 #include "MazeController.h"
 using namespace std::chrono_literals;
 MazeController::MazeController()
@@ -56,16 +57,24 @@ bool MazeController::collect_input()
 	std::cin.ignore();
 	return return_val;
 }
+bool MazeController::set_default_maze()
+{
+	std::cin.clear();
+	system("CLS");
+	current_maze = current_maze->default_maze();
+	return true;
+}
 void MazeController::display_menu()
 {
-	std::cout << "You are in room " << current_maze->current_room->get_name() << std::endl;
+	std::cout << "Get to room: " << current_maze->get_finish_room()->get_name() << std::endl;
+	std::cout << "You are in room " << current_maze->get_current_room()->get_name() << std::endl;
 	std::cout << "These are the directions you can travel: " << current_maze->get_directions() << std::endl;
 }
 void MazeController::set_maze(std::string maze_map)
 {
 	current_room = new Room();
 	current_maze = new Maze(maze_map);
-	current_room = current_maze->current_room;
+	current_room = current_maze->get_current_room();
 }
 void MazeController::start_loop()
 {
@@ -88,79 +97,52 @@ void MazeController::start_loop()
 			{
 				v = collect_input();
 			} while (!v);
-			for (int i = 0; i < 3; ++i)
-			{
-				std::this_thread::sleep_for(0.5s);
-				std::cout << '.';
-			}
 			system("CLS");
-			std::this_thread::sleep_for(0.5s);
 		}
 		std::cout << "You reached the end of the maze. Well done." << std::endl;
-		std::cout << "Play again? y/n: ";
-		switch (tolower(std::cin.get()))
-		{
-		case 'y':
-			current_maze->start_again();
-			break;
-		case 'n':
-			std::cout << "Bye... see you next time." << std::endl;
-			std::cout << "Exiting";
-			for (int i = 0; i < 3; ++i)
-			{
-				std::this_thread::sleep_for(500ms);
-				std::cout << '.';
-			}
-			std::cout << std::endl;
-			exited = true;
-			break;
-		default:
-			break;
+		getchar();
+		exited = true;
 		}
 	}
-}
+
+
 
 void MazeController::main_menu()
 {
 	bool valid_input_achieved = false; 
-	int response;
+	std::string str_response;
 	system("CLS");
 	std::cout << "Welcome to the text based maze game!\nWhich type of Maze would you like to play?\n1. Default maze\n2. User generated maze\n3. Randomly generated maze" << std::endl;
 	std::cout << "Please choose an option from the list: ";
-	std::cin >> response;
+	std::cin >> str_response;
+	auto i_response = std::stoi(str_response, nullptr, 16);
 	std::cin.ignore();
 	do
 	{
-		switch ((int)response)
+		switch (i_response)
 		{
 		case 1:
-			valid_input_achieved = true;
-			std::cin.clear();
-			system("CLS");
-			current_maze = current_maze->default_maze();
+			valid_input_achieved = set_default_maze();
 			break;
 		case 2:
-			valid_input_achieved = true;
-			std::cin.clear();
-			maze_from_file();
+			valid_input_achieved = maze_from_file();
 			break;
 		case 3:
 			valid_input_achieved = true;
-			current_maze = current_maze->default_maze();
 			break;
 		default:
 			std::cin.clear();
 			std::cout << "You have not chosen a valid option, please choose again: ";
-			std::cin >> response;
+			std::cin >> str_response;
 			break;
 		}
 		std::cin.clear();
 	} while (!valid_input_achieved);
 }
 
-void MazeController::maze_from_file()
+bool MazeController::maze_from_file()
 {
-	bool file_good = false;
+	auto file_good = false;
 	std::string file_name;
 	std::ifstream file;
 	do
@@ -190,4 +172,5 @@ void MazeController::maze_from_file()
 		}
 
 	} while (!file_good);
+	return true;
 }

@@ -1,10 +1,11 @@
 // Room.cpp
+#include "stdafx.h"
 #include "Room.h"
-Room::Room(char n)
+Room::Room(std::string n)
 {
 	name = n;
 }
-char Room::get_name()
+std::string Room::get_name()
 {
 	return name;
 }
@@ -12,6 +13,7 @@ Room::Room()
 {
 
 }
+// Set link based on char passed
 void Room::set_link(char dir, Room * room)
 {
 	switch (tolower(dir))
@@ -22,19 +24,15 @@ void Room::set_link(char dir, Room * room)
 		break;
 	case 'e':
 		east = room;
-		room->west = this;
 		break;
 	case 's':
 		south = room;
-		room->north = this;
 		break;
 	case 'w':
 		west = room;
-		room->east = this;
 		break;
 	case 't':
 		trap = room;
-		room->trap = this;
 		break;
 	default:
 		break;

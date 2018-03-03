@@ -1,9 +1,10 @@
 #pragma once
+#include "stdafx.h"
 #include "Includes.h"
 class Room
 {
 private:
-	char name;
+	std::string name;
 	Room * north;
 	Room * east;
 	Room * south;
@@ -11,10 +12,10 @@ private:
 	Room * trap;
 
 public:
-	Room(char n);
+	Room(std::string n);
 	Room();
 	void set_link(char dir, Room* room);
 	Room* get_link(char dir);
-	char get_name();
+	std::string get_name();
 	std::string get_directions();
 };
