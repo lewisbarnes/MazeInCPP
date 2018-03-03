@@ -1,0 +1,16 @@
+Amphitheater:-;Asylum;Belfry;-;-;
+Antechamber:-;-;Asylum;-;-;
+Asylum:Antechamber;Atrium;Cave;Amphitheater;Cavern;
+Atrium:-;Battlement;-;Asylum;-;
+Battlement:-;-;-;Atrium;-;
+Belfry:-;-;Cloister;-;Coliseum;
+Cave:Asylum;-;-;-;-;
+Cavern:-;Chapel;Courtyard;-;Depository;
+Chapel:-;-;-;Cavern;-;
+Cloister:Belfry;-;-;-;-;
+Coliseum:Courtyard;-;-;-;-;
+Courtyard:Cavern;-;Coliseum;-;-;
+Depository:Foyer;-;-;-;Cavern;
+Foyer:Depository;-;-;-;-;
+start:Amphitheater;
+finish:Foyer;

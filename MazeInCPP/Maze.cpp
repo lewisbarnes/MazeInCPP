@@ -4,13 +4,13 @@
 Maze::Maze(std::string maze_map)
 {
 	std::ifstream input_maze;
-	input_maze.open("default.maz");
+	input_maze.open("newdefault.maz");
 	if (input_maze.bad())
 	{
 		std::cout << "Unable to open file" << std::endl;
 		exit(1);
 	}
-	// Open the file, read it, check for null or empty and push_back to map
+	// Open the file, read it, check for null or empty and push_back to room_string_vector
 	if (input_maze.is_open())
 	{
 		std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();

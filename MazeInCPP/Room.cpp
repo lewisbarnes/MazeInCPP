@@ -20,7 +20,6 @@ void Room::set_link(char dir, Room * room)
 	{
 	case 'n':
 		north = room;
-		room->south = this;
 		break;
 	case 'e':
 		east = room;
