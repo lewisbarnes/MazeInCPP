@@ -3,7 +3,6 @@
 #include "Room.h"
 Room::Room(std::string n){name = n;}
 std::string Room::get_name(){return name;}
-Room::Room(){}
 void Room::set_link(char dir, Room * room)
 {
 	switch (tolower(dir))
@@ -27,7 +26,6 @@ void Room::set_link(char dir, Room * room)
 		break;
 	}
 }
-
 // Get linked room in direction char
 Room * Room::get_link(char dir)
 {
@@ -47,7 +45,6 @@ Room * Room::get_link(char dir)
 		return nullptr;
 	}
 }
-
 // Return the directions available for travel
 std::string Room::get_directions()
 {

@@ -1,6 +1,7 @@
 // MazeController.cpp
 #include "stdafx.h"
 #include "MazeController.h"
+#include <sstream>
 std::map<MOVE_DIR, std::string> directions{ { n_dir,"north" },{ e_dir,"east" },{ s_dir,"south" },{ w_dir,"west" } };
 MazeController::MazeController()
 {
@@ -42,6 +43,7 @@ bool MazeController::set_default_maze()
 	current_maze = current_maze->default_maze();
 	return true;
 }
+
 void MazeController::display_menu()
 {
 	std::cout << "Get to room: " << current_maze->get_finish_room()->get_name() << std::endl;
@@ -117,7 +119,6 @@ bool MazeController::maze_from_file()
 		std::cout << "Please input the name of the file that you wish to use for the maze (must have .maz extension): ";
 		std::getline(std::cin, file_name);
 		const std::string ext = ".maz";
-
 		// Check to see if the file name entered has the valid file extension
 		if (std::mismatch(ext.rbegin(), ext.rend(), file_name.rbegin()).first != ext.rend())
 		{

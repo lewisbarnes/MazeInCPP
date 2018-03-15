@@ -10,10 +10,8 @@ private:
 	Room * south;
 	Room * west;
 	Room * trap;
-
 public:
 	Room(std::string n);
-	Room();
 	void set_link(char dir, Room* room);
 	Room* get_link(char dir);
 	std::string get_name();
