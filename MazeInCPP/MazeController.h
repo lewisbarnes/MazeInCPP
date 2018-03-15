@@ -11,11 +11,10 @@ private:
 	bool set_default_maze();
 	bool maze_from_file();
 public:
-	void set_maze(std::string maze_map);
 	void start_loop();
 	MazeController();
 	void main_menu();
 
 };
 
-enum MOVE_DIR { no_direction, north_direction, east_direction, south_direction, west_direction, trap_direction, wrong_input };
+enum MOVE_DIR { no_dir, n_dir, e_dir, s_dir, w_dir, t_dir, w_input };

@@ -1,7 +1,7 @@
 // MazeController.cpp
 #include "stdafx.h"
 #include "MazeController.h"
-using namespace std::chrono_literals;
+std::map<MOVE_DIR, std::string> directions{ { n_dir,"north" },{ e_dir,"east" },{ s_dir,"south" },{ w_dir,"west" } };
 MazeController::MazeController()
 {
 	current_maze = nullptr;
@@ -9,50 +9,30 @@ MazeController::MazeController()
 }
 bool MazeController::collect_input()
 {
+
 	bool return_val;
 	std::cout << "Choose a direction to travel: ";
-	switch (current_maze->move(std::cin.get()))
+	auto move_val = current_maze->move(std::cin.get());
+	if (move_val == no_dir)
 	{
-		case no_direction:
-			system("CLS");
-			std::cout << "There is nothing in that direction!" << std::endl;
-			std::cout << "These are the directions you can travel: " << current_maze->get_directions() << std::endl;
-			return_val = false;
-			break;
-		case north_direction:
-			system("CLS");
-			std::cout << "You head north";
-			return_val = true;
-			break;
-		case east_direction:
-			system("CLS");
-			std::cout << "You head east";
-			return_val = true;
-			break;
-		case south_direction:
-			system("CLS");
-			std::cout << "You head south";
-			return_val = true;
-			break;
-		case west_direction:
-			system("CLS");
-			std::cout << "You head west";
-			return_val = true;
-			break;
-		case trap_direction:
-			system("CLS");
-			std::cout << "You open the trapdoor and climb through";
-			return_val = true;
-			break;
-		case wrong_input:
-			system("CLS");
-			std::cout << "That is not a valid direction!" << std::endl;
-			std::cout << "These are the directions you can travel: " << current_maze->get_directions() << std::endl;
-			return_val = false;
-			break;
-		default:
-			return_val = false;
-			break;
+		std::cout << "There is nothing in that direction" << std::endl;
+		return_val = false;
+	}
+	else if (move_val == t_dir)
+	{
+		std::cout << "You open the trapdoor and climb through";
+		return_val = true;
+	}
+	else if (move_val == w_input)
+	{
+		std::cout << "That is not a valid direction!" << std::endl;
+		std::cout << "These are the directions you can travel: " << current_maze->get_directions() << std::endl;
+		return_val = false;
+	}
+	else
+	{
+		std::cout << "You head " << directions[(MOVE_DIR)move_val] << std::endl;
+		return_val = true;
 	}
 	std::cin.ignore();
 	return return_val;
@@ -60,7 +40,6 @@ bool MazeController::collect_input()
 bool MazeController::set_default_maze()
 {
 	std::cin.clear();
-	system("CLS");
 	current_maze = current_maze->default_maze();
 	return true;
 }
@@ -70,48 +49,39 @@ void MazeController::display_menu()
 	std::cout << "You are in room " << current_maze->get_current_room()->get_name() << std::endl;
 	std::cout << "These are the directions you can travel: " << current_maze->get_directions() << std::endl;
 }
-void MazeController::set_maze(std::string maze_map)
-{
-	current_room = new Room();
-	current_maze = new Maze(maze_map);
-	current_room = current_maze->get_current_room();
-}
 void MazeController::start_loop()
 {
-	system("CLS");
 	bool exited = false;
 	main_menu();
 	if (current_maze == nullptr)
 	{
 		std::cout << "An error has ocurred, the maze has not been set" << std::endl;
-		getchar();
 		exited = true;
 	}
 	while (!exited)
 	{
 		while(!current_maze->is_complete())
 		{
+			system("CLS");
 			display_menu();
 			bool v;
 			do
 			{
 				v = collect_input();
 			} while (!v);
-			system("CLS");
 		}
+		std::cout << "You arrive at room " << current_maze->get_finish_room()->get_name() << "\n"<< std::endl;
 		std::cout << "You reached the end of the maze. Well done." << std::endl;
+		std::cout << current_maze->get_move_order() << std::endl;
+		std::cout << "Steps taken: "<<current_maze->get_steps_taken()<< std::endl;
 		getchar();
 		exited = true;
 		}
 	}
-
-
-
 void MazeController::main_menu()
 {
 	bool valid_input_achieved = false; 
 	std::string str_response;
-	system("CLS");
 	std::cout << "Welcome to the text based maze game!\nWhich type of Maze would you like to play?\n1. Default maze\n2. User generated maze\n3. Randomly generated maze" << std::endl;
 	std::cout << "Please choose an option from the list: ";
 	std::cin >> str_response;
@@ -139,10 +109,8 @@ void MazeController::main_menu()
 		std::cin.clear();
 	} while (!valid_input_achieved);
 }
-
 bool MazeController::maze_from_file()
 {
-	auto file_good = false;
 	std::string file_name;
 	std::ifstream file;
 	do
@@ -159,18 +127,10 @@ bool MazeController::maze_from_file()
 		else
 		{
 			file.open(file_name);		
-			if (!file.good())
-			{
-				std::cout << "Sorry the file you have chosen does not exist." << std::endl;
-			}
-			else
-			{
-				file_good = true;
-
-			}
+			if (!file.good()) { std::cout << "Sorry the file you have chosen does not exist." << std::endl; }
 			file.close();
 		}
-
-	} while (!file_good);
+	} while (!file.good());
+	current_maze = Maze::from_file(file_name);
 	return true;
 }
