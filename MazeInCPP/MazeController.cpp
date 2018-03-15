@@ -9,7 +9,6 @@ MazeController::MazeController()
 }
 bool MazeController::collect_input()
 {
-
 	bool return_val;
 	std::cout << "Choose a direction to travel: ";
 	auto move_val = current_maze->move(std::cin.get());

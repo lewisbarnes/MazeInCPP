@@ -32,5 +32,4 @@ public:
 	int get_steps_taken() { return steps_taken; }
 	void append_move() { move_order.append(current_room->get_name() + "->"); }
 	int set_next_room(char c,int ret);
-	void done();
 };

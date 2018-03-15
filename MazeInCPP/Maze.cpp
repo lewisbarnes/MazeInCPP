@@ -1,7 +1,6 @@
 // Maze.cpp
 #include "stdafx.h"
 #include "Maze.h"
-std::vector<Room*> rooms;
 Maze::Maze(std::vector<std::string> room_strings)
 {
 	auto initial = create_initial_rooms(room_strings);
@@ -25,7 +24,6 @@ std::map<std::string, Room*> Maze::create_initial_rooms(std::vector<std::string>
 			if (!((room_name == "start") || (room_name == "finish")))
 			{
 				room_map[room_name] = new Room(room_name);
-				rooms.push_back(room_map[room_name]);
 			}
 		}
 	}
@@ -62,10 +60,7 @@ void Maze::link_rooms(std::vector<std::string> room_strings, std::map<std::strin
 			{
 				pos = line.find(';');
 				std::string linkname = line.substr(0, pos);
-				if (linkname != "-")
-				{
-					room_map[room_name]->set_link(direct[i], room_map[linkname]);
-				}
+				(linkname != "-") ? room_map[room_name]->set_link(direct[i], room_map[linkname]) : 0;
 				line.erase(0, pos + 1);
 				i++;
 			}
@@ -125,12 +120,4 @@ int Maze::set_next_room(char c, int ret)
 	current_room = current_room->get_link(c);
 	steps_taken++;
 	return ret;
-}
-
-void Maze::done()
-{
-	for (std::vector<Room*>::iterator it = rooms.begin(); it != rooms.end(); ++it)
-	{
-		delete *it;
-	}
 }
