@@ -1,5 +1,4 @@
 // Maze.cpp
-#include "stdafx.h"
 #include "Maze.h"
 #include <sstream>
 Maze::Maze(std::vector<std::string> room_strings)
@@ -8,9 +7,9 @@ Maze::Maze(std::vector<std::string> room_strings)
 	link_rooms(room_strings,initial);
 	current_room = start_room;
 }
-std::map<std::string, Room*> Maze::create_initial_rooms(std::vector<std::string> room_strings)
+std::map<std::string, AbstractRoom*> Maze::create_initial_rooms(std::vector<std::string> room_strings)
 {
-	std::map<std::string, Room*> room_map;
+	std::map<std::string, AbstractRoom*> room_map;
 	// For each entry into map create associated nodes
 	for each(std::string s in room_strings)
 	{
@@ -22,14 +21,14 @@ std::map<std::string, Room*> Maze::create_initial_rooms(std::vector<std::string>
 			// Reject room_name if "start" or "finish"
 			if (!((s.substr(0, pos) == "start") || (s.substr(0, pos) == "finish")))
 			{
-				room_map[s.substr(0, pos)] = new Room(s.substr(0, pos));
+				room_map[s.substr(0, pos)] = new NormalRoom(s.substr(0, pos));
 			}
 		}
 	}
 	return room_map;
 }
 // Link the rooms to each other
-void Maze::link_rooms(std::vector<std::string> room_strings, std::map<std::string, Room*> room_map)
+void Maze::link_rooms(std::vector<std::string> room_strings, std::map<std::string, AbstractRoom*> room_map)
 {
 	for each(std::string s in room_strings)
 	{
@@ -52,7 +51,6 @@ void Maze::link_rooms(std::vector<std::string> room_strings, std::map<std::strin
 		{
 			std::string direct = "neswt";
 			int i = 0;
-			std::string::iterator it1 = s.begin();
 			while (s != "")
 			{
 				pos = s.find(';');
@@ -62,17 +60,6 @@ void Maze::link_rooms(std::vector<std::string> room_strings, std::map<std::strin
 			}
 		}
 	}
-}
-std::vector<std::string> string_to_vec_on_newl(std::string in)
-{
-	std::stringstream iss(in);
-	std::vector<std::string> lines;
-	std::string line;
-	while (std::getline(iss, line))
-	{
-		lines.push_back(line);
-	}
-	return lines;
 }
 Maze * Maze::default_maze() {
 	return Maze::from_file("default.maz");
@@ -86,12 +73,11 @@ Maze* Maze::from_file(std::string path)
 	// Open the file, read it, check for null or empty and push_back to room_string_vector
 	if (input_maze.good() && input_maze.is_open())
 	{
-		std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 		std::string line;
 		while (!input_maze.eof())
 		{
 			std::getline(input_maze, line);
-			!line.empty() ? room_string_vector.push_back(line) : void();
+			!line.empty() ? room_string_vector.push_back(line) : 0;
 		}
 		input_maze.close();
 		input_maze.clear();
@@ -122,7 +108,7 @@ int Maze::move(char direction)
 		return 6;
 	}
 }
-// Take the char of direction, append move, set current room and increment steps taken;
+// Get char direction as parameter, get link and return int passed as parameter
 int Maze::set_next_room(char c, int ret)
 {
 	append_move();

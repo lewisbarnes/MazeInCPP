@@ -1,7 +1,7 @@
 // MazeController.cpp
-#include "stdafx.h"
 #include "MazeController.h"
 #include <sstream>
+
 std::map<MOVE_DIR, std::string> directions{ { n_dir,"north" },{ e_dir,"east" },{ s_dir,"south" },{ w_dir,"west" } };
 MazeController::MazeController()
 {

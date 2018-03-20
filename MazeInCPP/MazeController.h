@@ -4,7 +4,7 @@
 class MazeController
 {
 private:
-	Room * current_room;
+	NormalRoom * current_room;
 	Maze * current_maze;
 	void display_menu();
 	bool collect_input();

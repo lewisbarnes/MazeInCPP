@@ -1,5 +1,4 @@
 // Source.cpp
-#include "stdafx.h"
 #include "MazeController.h"
 #include <sstream>
 
