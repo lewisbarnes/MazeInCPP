@@ -7,6 +7,9 @@ Maze::Maze(std::vector<std::string> room_strings)
 	link_rooms(room_strings,initial);
 	current_room = start_room;
 }
+Maze::Maze()
+{
+}
 std::map<std::string, AbstractRoom*> Maze::create_initial_rooms(std::vector<std::string> room_strings)
 {
 	std::map<std::string, AbstractRoom*> room_map;

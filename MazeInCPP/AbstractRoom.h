@@ -5,11 +5,10 @@ class AbstractRoom
 {
 protected:
 	std::string name;
-	AbstractRoom * north;
-	AbstractRoom * east;
-	AbstractRoom * south;
-	AbstractRoom * west;
-
+	AbstractRoom * north = nullptr;
+	AbstractRoom * east = nullptr;
+	AbstractRoom * south = nullptr;
+	AbstractRoom * west = nullptr;
 public:
 	AbstractRoom();
 	AbstractRoom(std::string n);

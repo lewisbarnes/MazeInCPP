@@ -1,10 +1,10 @@
 #pragma once
 #include "Includes.h"
-#include "Room.h"
+#include "NormalRoom.h"
 #include "AbstractRoom.h"
 class Maze
 {
-private:
+protected:
 	AbstractRoom * start_room;
 	AbstractRoom * finish_room;
 	std::string move_order;
@@ -12,6 +12,7 @@ private:
 	int steps_taken;
 public:
 	Maze(std::vector<std::string> room_strings);
+	Maze();
 	AbstractRoom * get_current_room() { return current_room; }
 	AbstractRoom * get_start_room() { return start_room; }
 	AbstractRoom * get_finish_room() { return finish_room; }

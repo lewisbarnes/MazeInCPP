@@ -114,6 +114,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AbstractRoom.cpp" />
+    <ClCompile Include="AutoRoom.cpp" />
     <ClCompile Include="MazeController.cpp" />
     <ClCompile Include="MazeGenerator.cpp" />
     <ClCompile Include="Room.cpp" />
@@ -123,11 +124,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractRoom.h" />
+    <ClInclude Include="AutoRoom.h" />
     <ClInclude Include="Includes.h" />
     <ClInclude Include="Maze.h" />
     <ClInclude Include="MazeController.h" />
     <ClInclude Include="MazeGenerator.h" />
-    <ClInclude Include="Room.h" />
+    <ClInclude Include="NormalRoom.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

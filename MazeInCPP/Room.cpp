@@ -1,7 +1,11 @@
-#include "Room.h"
+#include "NormalRoom.h"
 NormalRoom::NormalRoom(std::string n) : AbstractRoom(n)
 {
 	name = n;
+}
+
+NormalRoom::NormalRoom()
+{
 }
 
 void NormalRoom::set_link(char dir, AbstractRoom * room)
@@ -10,18 +14,38 @@ void NormalRoom::set_link(char dir, AbstractRoom * room)
 	{
 	case 'n':
 		north = room;
+		if (room->get_link('s') == nullptr)
+		{
+			room->set_link('s', this);
+		}
 		break;
 	case 'e':
 		east = room;
+		if (room->get_link('w') == nullptr)
+		{
+			room->set_link('w', this);
+		}
 		break;
 	case 's':
 		south = room;
+		if (room->get_link('n') == nullptr)
+		{
+			room->set_link('n', this);
+		}
 		break;
 	case 'w':
 		west = room;
+		if (room->get_link('e') == nullptr)
+		{
+			room->set_link('e', this);
+		}
 		break;
 	case 't':
 		trap = room;
+		if (room->get_link('t') == nullptr)
+		{
+			room->set_link('t', this);
+		}
 		break;
 	default:
 		break;

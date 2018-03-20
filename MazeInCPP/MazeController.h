@@ -1,6 +1,7 @@
 // MazeController.h
 #pragma once
 #include "Maze.h"
+#include "MazeGenerator.h"
 class MazeController
 {
 private:

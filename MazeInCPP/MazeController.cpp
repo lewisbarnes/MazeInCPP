@@ -41,6 +41,7 @@ bool MazeController::set_default_maze()
 {
 	std::cin.clear();
 	current_maze = current_maze->default_maze();
+
 	return true;
 }
 
@@ -100,6 +101,7 @@ void MazeController::main_menu()
 			break;
 		case 3:
 			valid_input_achieved = true;
+			current_maze = MazeGenerator().generate_random(100);
 			break;
 		default:
 			std::cin.clear();
