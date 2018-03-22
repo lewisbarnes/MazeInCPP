@@ -65,6 +65,49 @@ void Maze::link_rooms(std::vector<std::string> room_strings, std::map<std::strin
 	}
 }
 Maze * Maze::default_maze() {
+	//auto A = new NormalRoom("A");
+	//auto B = new NormalRoom("B");
+	//auto C = new NormalRoom("C");
+	//auto D = new NormalRoom("D");
+	//auto E = new NormalRoom("E");
+	//auto F = new NormalRoom("F");
+	//auto G = new NormalRoom("G");
+	//auto H = new NormalRoom("H");
+	//auto I = new NormalRoom("I");
+	//auto J = new NormalRoom("J");
+	//auto K = new NormalRoom("K");
+	//auto L = new NormalRoom("L");
+	//auto M = new NormalRoom("M");
+	//auto N = new NormalRoom("N");
+	//A->set_link('e', C);
+	//A->set_link('s', F);
+	//B->set_link('s', C);
+	//C->set_link('n', B);
+	//C->set_link('e', D);
+	//C->set_link('s', G);
+	//C->set_link('w', A);
+	//C->set_link('t', H);
+	//D->set_link('e', E);
+	//D->set_link('w', C);
+	//E->set_link('w', D);
+	//F->set_link('s', J);
+	//F->set_link('t', K);
+	//G->set_link('n', C);
+	//H->set_link('e', I);
+	//H->set_link('s', L);
+	//H->set_link('t', M);
+	//I->set_link('w', H);
+	//J->set_link('n', F);
+	//K->set_link('n', L);
+	//L->set_link('n', H);
+	//L->set_link('s', K);
+	//M->set_link('n', N);
+	//M->set_link('t', H);
+	//N->set_link('s', M);
+	//start_room = A;
+	//finish_room = N;
+	//current_room = start_room;
+	//return this;
 	return Maze::from_file("default.maz");
 }
 // Create a maze from the file provided by the user.

@@ -15,37 +15,14 @@ void AbstractRoom::set_link(char dir, AbstractRoom * room)
 	{
 	case 'n':
 		north = room;
-		if (room->get_link('s') == nullptr)
-		{
-			room->set_link('s', this);
-		}
 		break;
 	case 'e':
 		east = room;
-		if (room->get_link('w') == nullptr)
-		{
-			room->set_link('w', this);
-		}
 		break;
 	case 's':
-		if (south == nullptr)
-		{
-			south = room;
-			if (room->get_link('n') == nullptr)
-			{
-				room->set_link('n', this);
-			}
-		}
+		south = room;
 		break;
 	case 'w':
-		if (west == nullptr)
-		{
-			west = room;
-			if (room->get_link('e') == nullptr)
-			{
-				room->set_link('e', this);
-			}
-		}
 		west = room;
 		break;
 	default:

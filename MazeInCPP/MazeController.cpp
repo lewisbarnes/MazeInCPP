@@ -13,14 +13,15 @@ bool MazeController::collect_input()
 	bool return_val;
 	std::cout << "Choose a direction to travel: ";
 	auto move_val = current_maze->move(std::cin.get());
+	std::cout << std::endl;
 	if (move_val == no_dir)
 	{
-		std::cout << "There is nothing in that direction" << std::endl;
+		std::cout << "There is nothing in that direction\n" << std::endl;
 		return_val = false;
 	}
 	else if (move_val == t_dir)
 	{
-		std::cout << "You open the trapdoor and climb through";
+		std::cout << "You open the trapdoor and climb through\n";
 		return_val = true;
 	}
 	else if (move_val == w_input)
@@ -64,11 +65,11 @@ void MazeController::start_loop()
 	{
 		while(!current_maze->is_complete())
 		{
-			system("CLS");
 			display_menu();
 			bool v;
 			do
 			{
+				std::cout << std::endl;
 				v = collect_input();
 			} while (!v);
 		}
@@ -87,11 +88,12 @@ void MazeController::main_menu()
 	std::cout << "Welcome to the text based maze game!\nWhich type of Maze would you like to play?\n1. Default maze\n2. User generated maze\n3. Randomly generated maze" << std::endl;
 	std::cout << "Please choose an option from the list: ";
 	std::cin >> str_response;
-	auto i_response = std::stoi(str_response, nullptr, 16);
+	auto i_response = std::stoi(str_response, nullptr, 10);
 	std::cin.ignore();
+	MazeGenerator* gen_maze = new MazeGenerator();
 	do
 	{
-		switch (i_response)
+		switch(i_response)
 		{
 		case 1:
 			valid_input_achieved = set_default_maze();
@@ -101,7 +103,12 @@ void MazeController::main_menu()
 			break;
 		case 3:
 			valid_input_achieved = true;
-			current_maze = MazeGenerator().generate_random(100);
+			std::cin.clear();
+			std::cout << "Choose how many rooms in maze: ";
+			std::cin >> str_response;
+			i_response = std::stoi(str_response, nullptr, 10);
+			current_maze = gen_maze->generate_random(i_response);
+			std::cin.ignore();
 			break;
 		default:
 			std::cin.clear();

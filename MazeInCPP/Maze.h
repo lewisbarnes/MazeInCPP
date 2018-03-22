@@ -21,7 +21,7 @@ public:
 	bool is_complete() { return (current_room == finish_room) ? true : false; }
 	std::map<std::string, AbstractRoom*> create_initial_rooms(std::vector<std::string> room_strings);
 	void link_rooms(std::vector<std::string> room_strings, std::map<std::string, AbstractRoom*> room_map);
-	static Maze * default_maze();
+	Maze * default_maze();
 	static Maze* from_file(std::string path);
 	std::string get_directions() { return current_room->get_directions(); }
 	std::string get_move_order() { return move_order.erase(move_order.find_last_not_of("->")+1)+"->"+current_room->get_name(); }
