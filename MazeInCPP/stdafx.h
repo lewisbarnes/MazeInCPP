@@ -1,1 +1,14 @@
 #pragma once
+#include <cstdlib>
+#include <string>
+#include <iostream>
+#include <map>
+#include <vector>
+#include <chrono>
+#include <thread>
+#include <fstream>
+#include <algorithm>
+#include <sstream>
+#include <deque>
+#include <direct.h>
+#include "ctype.h"

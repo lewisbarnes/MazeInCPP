@@ -1,4 +1,6 @@
+#include "stdafx.h"
 #include "NormalRoom.h"
+using namespace MazeInCPP;
 NormalRoom::NormalRoom(std::string n) : AbstractRoom(n)
 {
 	name = n;
@@ -8,43 +10,59 @@ NormalRoom::NormalRoom()
 {
 }
 
+// Set the link based on char passed with pointer to room
 void NormalRoom::set_link(char dir, AbstractRoom * room)
 {
 	switch (tolower(dir))
 	{
 	case 'n':
 		north = room;
-		if (room->get_link('s') == nullptr)
+		if (room != nullptr)
 		{
-			room->set_link('s', this);
+			if (room->get_link('s') == nullptr)
+			{
+				room->set_link('s', this);
+			}
 		}
 		break;
 	case 'e':
 		east = room;
-		if (room->get_link('w') == nullptr)
+		if (room != nullptr)
 		{
-			room->set_link('w', this);
+			if (room->get_link('w') == nullptr)
+			{
+				room->set_link('w', this);
+			}
 		}
 		break;
 	case 's':
 		south = room;
-		if (room->get_link('n') == nullptr)
+		if (room != nullptr)
 		{
-			room->set_link('n', this);
+			if (room->get_link('n') == nullptr)
+			{
+				room->set_link('n', this);
+			}
 		}
 		break;
 	case 'w':
 		west = room;
-		if (room->get_link('e') == nullptr)
+		if (room != nullptr)
 		{
-			room->set_link('e', this);
+			if (room->get_link('e') == nullptr)
+			{
+				room->set_link('e', this);
+			}
 		}
 		break;
 	case 't':
 		trap = room;
-		if (room->get_link('t') == nullptr)
+		if (room != nullptr)
 		{
-			room->set_link('t', this);
+			if (room->get_link('t') == nullptr)
+			{
+				room->set_link('t', this);
+			}
 		}
 		break;
 	default:
@@ -52,6 +70,7 @@ void NormalRoom::set_link(char dir, AbstractRoom * room)
 	}
 }
 
+// Get the linked room based on char passed to function
 AbstractRoom * NormalRoom::get_link(char dir)
 {
 	switch (tolower(dir))
@@ -71,6 +90,8 @@ AbstractRoom * NormalRoom::get_link(char dir)
 	}
 }
 
+
+// Return the directions the user can traverse through the rooms
 std::string NormalRoom::get_directions()
 {
 	std::string return_string;

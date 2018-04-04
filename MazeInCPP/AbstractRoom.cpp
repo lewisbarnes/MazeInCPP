@@ -1,5 +1,5 @@
+#include "stdafx.h"
 #include "AbstractRoom.h"
-
 AbstractRoom::AbstractRoom()
 {
 }

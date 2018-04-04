@@ -1,13 +1,14 @@
 #pragma once
-#include "AutoRoom.h"
+#include "stdafx.h"
 #include "Maze.h"
-#include <deque>
+namespace MazeInCPP {
+	class MazeGenerator : public Maze
+	{
+	private:
+		std::deque<NormalRoom*> auto_rooms;
+	public:
+		MazeGenerator();
+		MazeGenerator * generate_random(int num_rooms);
+	};
+}
 
-class MazeGenerator : public Maze
-{
-private:
-	std::deque<NormalRoom*> auto_rooms;
-public:
-	MazeGenerator();
-	MazeGenerator * generate_random(int num_rooms);
-};

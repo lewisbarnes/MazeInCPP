@@ -75,7 +75,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -113,19 +113,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractRoom.cpp" />
-    <ClCompile Include="AutoRoom.cpp" />
-    <ClCompile Include="MazeController.cpp" />
-    <ClCompile Include="MazeGenerator.cpp" />
-    <ClCompile Include="Room.cpp" />
-    <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Maze.cpp" />
+    <ClCompile Include="AbstractRoom.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Global.cpp" />
+    <ClCompile Include="MazeController.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="MazeController.Loop.cpp" />
+    <ClCompile Include="MazeGenerator.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="NormalRoom.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Maze.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractRoom.h" />
-    <ClInclude Include="AutoRoom.h" />
-    <ClInclude Include="Includes.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="Maze.h" />
     <ClInclude Include="MazeController.h" />
     <ClInclude Include="MazeGenerator.h" />

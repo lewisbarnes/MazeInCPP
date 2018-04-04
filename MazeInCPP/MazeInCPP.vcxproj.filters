@@ -21,13 +21,7 @@
     <ClCompile Include="MazeController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Room.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Maze.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AbstractRoom.cpp">
@@ -36,7 +30,16 @@
     <ClCompile Include="MazeGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AutoRoom.cpp">
+    <ClCompile Include="NormalRoom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MazeController.Loop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,13 +47,7 @@
     <ClInclude Include="Maze.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Includes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MazeController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AbstractRoom.h">
@@ -62,7 +59,10 @@
     <ClInclude Include="NormalRoom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AutoRoom.h">
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

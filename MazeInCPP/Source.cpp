@@ -1,7 +1,7 @@
 // Source.cpp
+#include "stdafx.h"
 #include "MazeController.h"
-#include <sstream>
-
+using namespace MazeInCPP;
 void main(void)
 {
 	//Create an instance of MazeController and start the loop

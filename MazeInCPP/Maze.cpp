@@ -1,61 +1,89 @@
 // Maze.cpp
+#include "stdafx.h"
 #include "Maze.h"
 #include <sstream>
-Maze::Maze(std::vector<std::string> room_strings)
-{
+using namespace MazeInCPP;
+Maze::Maze() {
+}
+Maze::Maze(std::vector<std::string> room_strings) {
 	auto initial = create_initial_rooms(room_strings);
 	link_rooms(room_strings,initial);
 	current_room = start_room;
 }
-Maze::Maze()
-{
+
+std::string Maze::get_directions() {
+	return current_room->get_directions();
 }
-std::map<std::string, AbstractRoom*> Maze::create_initial_rooms(std::vector<std::string> room_strings)
-{
+
+std::string Maze::get_move_order() {
+	return move_order.erase(move_order.find_last_not_of("->") + 1) + "->" + current_room->get_name();
+}
+
+int Maze::get_steps_taken() {
+	return steps_taken;
+}
+void Maze::append_move() {
+	move_order.append(current_room->get_name() + "->");
+}
+
+AbstractRoom * Maze::get_start_room() {
+	return start_room;
+}
+
+AbstractRoom * Maze::get_finish_room() {
+	return finish_room;
+}
+
+AbstractRoom * Maze::get_current_room() {
+	return current_room;
+}
+
+bool Maze::is_complete() { 
+	return (current_room == finish_room) ? true : false; 
+}
+
+void Maze::start_again() {
+	current_room = start_room;
+}
+
+std::map<std::string, AbstractRoom*> Maze::create_initial_rooms(std::vector<std::string> room_strings) {
 	std::map<std::string, AbstractRoom*> room_map;
 	// For each entry into map create associated nodes
-	for each(std::string s in room_strings)
-	{
+	for each(std::string s in room_strings) {
 		// Find the first occurrence of a character
 		size_t pos = s.find_first_of(':');
 		// Get the substring before the character position
-		if (s.substr(0,pos) != "-")
-		{
+		if (s.substr(0,pos) != "-") {
 			// Reject room_name if "start" or "finish"
-			if (!((s.substr(0, pos) == "start") || (s.substr(0, pos) == "finish")))
-			{
+			if (!((s.substr(0, pos) == "start") || (s.substr(0, pos) == "finish"))) {
 				room_map[s.substr(0, pos)] = new NormalRoom(s.substr(0, pos));
 			}
 		}
 	}
 	return room_map;
 }
-// Link the rooms to each other
-void Maze::link_rooms(std::vector<std::string> room_strings, std::map<std::string, AbstractRoom*> room_map)
-{
+
+// Link the rooms together
+void Maze::link_rooms(std::vector<std::string> room_strings, std::map<std::string, AbstractRoom*> room_map) {
 	for each(std::string s in room_strings)
 	{
 		size_t pos = s.find_first_of(':');
 		std::string room_name = s.substr(0, pos);
 		s.erase(0, pos + 1);
-		if (room_name == "start")
-		{
+		if (room_name == "start") {
 			pos = s.find_first_of(';');
 			start_room = room_map[s.substr(0, pos)];
 			s.erase(0, pos + 1);
 		}
-		if (room_name == "finish")
-		{
+		if (room_name == "finish") {
 			pos = s.find_first_of(';');
 			finish_room = room_map[s.substr(0, pos)];
 			s.erase(0, pos + 1);
 		}
-		if (!((room_name == "start") || (room_name == "finish")))
-		{
+		if (!((room_name == "start") || (room_name == "finish"))) {
 			std::string direct = "neswt";
 			int i = 0;
-			while (s != "")
-			{
+			while (s != "") {
 				pos = s.find(';');
 				(s.substr(0,pos) != "-") ? room_map[room_name]->set_link(direct[i], room_map[s.substr(0,pos)]) : 0;
 				s.erase(0, pos + 1);
@@ -108,11 +136,11 @@ Maze * Maze::default_maze() {
 	//finish_room = N;
 	//current_room = start_room;
 	//return this;
-	return Maze::from_file("default.maz");
+	return Maze::from_file(Global::get_cwd()+"\\mazes\\default.maz");
+
 }
 // Create a maze from the file provided by the user.
-Maze* Maze::from_file(std::string path)
-{
+Maze* Maze::from_file(std::string path) {
 	std::vector<std::string> room_string_vector;
 	std::ifstream input_maze;
 	input_maze.open(path);
@@ -135,11 +163,10 @@ Maze* Maze::from_file(std::string path)
 	}
 	return new Maze(room_string_vector);
 }
-int Maze::move(char direction)
-{
+
+int Maze::move(char direction) {
 	// Switch on input, return int based on response.
-	switch (tolower(direction))
-	{
+	switch (tolower(direction)) {
 	case 'n':
 		return current_room->get_link('n') ? set_next_room('n', 1) : 0;
 	case 'e':
@@ -154,9 +181,9 @@ int Maze::move(char direction)
 		return 6;
 	}
 }
+
 // Get char direction as parameter, get link and return int passed as parameter
-int Maze::set_next_room(char c, int ret)
-{
+int Maze::set_next_room(char c, int ret) {
 	append_move();
 	current_room = current_room->get_link(c);
 	steps_taken++;
