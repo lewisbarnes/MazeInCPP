@@ -136,7 +136,7 @@ Maze * Maze::default_maze() {
 	//finish_room = N;
 	//current_room = start_room;
 	//return this;
-	return Maze::from_file(Global::get_cwd()+"\\mazes\\default.maz");
+	return Maze::from_file(Global::get_cwd()+"\\mazes\\system\\default.maz");
 
 }
 // Create a maze from the file provided by the user.

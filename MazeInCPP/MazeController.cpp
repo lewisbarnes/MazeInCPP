@@ -1,6 +1,7 @@
 // MazeController.cpp
 #include "stdafx.h"
 #include "MazeController.h"
+#include "Global.h"
 using namespace MazeInCPP;
 // Map strings to enum for use in collect_input function
 std::map<MOVE_DIR, std::string> directions{ { n_dir,"north" },{ e_dir,"east" },{ s_dir,"south" },{ w_dir,"west" } };
@@ -49,7 +50,7 @@ bool MazeController::set_default_maze()
 	current_maze = current_maze->default_maze();
 	return true;
 }
-
+#pragma region Displaying
 // Display the options for travel to the user
 void MazeController::display_info() {
 	std::cout << "Hit \'q\' then hit enter to quit the maze" << std::endl;
@@ -57,6 +58,7 @@ void MazeController::display_info() {
 	std::cout << "You are in room " << current_maze->get_current_room()->get_name() << std::endl;
 	std::cout << "These are the directions you can travel: " << current_maze->get_directions() << std::endl;
 }
+
 // Show the main menu to the user
 void MazeController::main_menu() {
 	bool valid_input_achieved = false;
@@ -116,7 +118,7 @@ ask_maze:
 		std::cin.clear();
 	} while (!valid_input_achieved);
 }
-
+#pragma endregion
 // Set the maze from file, declared by user
 bool MazeController::maze_from_file() {
 	std::string file_name;
@@ -124,15 +126,13 @@ bool MazeController::maze_from_file() {
 	do {
 		const std::string ext = ".maz";
 		std::cout << "Please input the name of the file that you wish to use for the maze (must have .maz extension): ";
-
 		std::getline(std::cin, file_name);
-
 		// Check to see if the file name entered has the valid file extension
 		if (std::mismatch(ext.rbegin(), ext.rend(), file_name.rbegin()).first != ext.rend()) {
 			std::cout << "Sorry, the file you have chosen does not have the correct file extension (.maz)." << std::endl;
 		}
 		else {
-			file.open(file_name);		
+			file.open(Global::get_cwd()+"\\mazes\\"+file_name);		
 			if (!file.good()) { 
 				std::cout << "Sorry the file you have chosen does not exist." << std::endl; 
 			}
@@ -140,5 +140,6 @@ bool MazeController::maze_from_file() {
 		}
 	} while (!file.good());
 	current_maze = Maze::from_file(file_name);
+	system("CLS");
 	return true;
 }

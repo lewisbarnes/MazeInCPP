@@ -11,4 +11,6 @@
 #include <sstream>
 #include <deque>
 #include <direct.h>
+#include <stdio.h>
+#include <filesystem>
 #include "ctype.h"
