@@ -4,30 +4,30 @@
 #include "Global.h"
 using namespace MazeInCPP;
 // Map strings to enum for use in collect_input function
-std::map<MOVE_DIR, std::string> directions{ { n_dir,"north" },{ e_dir,"east" },{ s_dir,"south" },{ w_dir,"west" } };
+// Receive input from the user and handle it
 MazeController::MazeController()
 {
-	current_maze = nullptr;
+	start_loop();
 }
-// Receive input from the user and handle it
 bool MazeController::collect_input()
 {
 	bool return_val;
 	std::cout << "Choose a direction to travel: ";
 	auto input = std::cin.get();
 	if (input == 'q') {
-		exit(0);
+		main_menu();
 	}
 	auto move_val = current_maze->move(input);
 	std::cout << std::endl;
 	system("CLS");
 	if (move_val == no_dir) {
-		std::cout << "There is nothing in that direction\n" << std::endl;
+		std::cout << "There is nothing in that direction" << std::endl;
+		std::cout << "These are the directions you can travel: " << current_maze->get_directions() << std::endl;
 		std::cin.ignore();
 		return_val = false;
 	}
 	else if (move_val == t_dir) {
-		std::cout << "You open the trapdoor and climb through\n";
+		std::cout << "You open the trapdoor and climb through" << std::endl;
 		return_val = true;
 	}
 	else if (move_val == w_input) {
@@ -50,6 +50,7 @@ bool MazeController::set_default_maze()
 	current_maze = current_maze->default_maze();
 	return true;
 }
+
 #pragma region Displaying
 // Display the options for travel to the user
 void MazeController::display_info() {
@@ -74,6 +75,7 @@ ask_maze:
 		i_response = std::stoi(str_response, nullptr, 0);
 	}
 	catch(std::invalid_argument e) {
+		system("CLS");
 		std::cout << "You did not enter a valid integer!" << std::endl;
 		goto ask_maze;
 	}
@@ -119,27 +121,29 @@ ask_maze:
 	} while (!valid_input_achieved);
 }
 #pragma endregion
+
 // Set the maze from file, declared by user
 bool MazeController::maze_from_file() {
 	std::string file_name;
 	std::ifstream file;
 	do {
 		const std::string ext = ".maz";
+	ask_file:
 		std::cout << "Please input the name of the file that you wish to use for the maze (must have .maz extension): ";
 		std::getline(std::cin, file_name);
 		// Check to see if the file name entered has the valid file extension
 		if (std::mismatch(ext.rbegin(), ext.rend(), file_name.rbegin()).first != ext.rend()) {
-			std::cout << "Sorry, the file you have chosen does not have the correct file extension (.maz)." << std::endl;
+			file_name += ext;
 		}
-		else {
-			file.open(Global::get_cwd()+"\\mazes\\"+file_name);		
-			if (!file.good()) { 
-				std::cout << "Sorry the file you have chosen does not exist." << std::endl; 
-			}
-			file.close();
+		file.open(Global::get_cwd()+"\\mazes\\"+file_name);
+		if (!file.good()) 
+		{ 
+			std::cout << "Sorry the file you have chosen does not exist." << std::endl; 
+			goto ask_file;
 		}
+		file.close();
 	} while (!file.good());
-	current_maze = Maze::from_file(file_name);
+	current_maze = Maze::from_file(Global::get_cwd() + "\\mazes\\" + file_name);
 	system("CLS");
 	return true;
 }

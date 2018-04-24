@@ -2,15 +2,14 @@
 #include "stdafx.h"
 #include "AbstractRoom.h"
 namespace MazeInCPP {
-	class NormalRoom : public AbstractRoom
+	class NormalRoom : public BaseRoom
 	{
 	protected:
-		AbstractRoom * trap;
+		BaseRoom * trap;
 	public:
 		NormalRoom(std::string n);
-		NormalRoom();
-		void set_link(char dir, AbstractRoom* room);
-		AbstractRoom * get_link(char dir);
+		void set_link(char dir, BaseRoom* room);
+		BaseRoom * get_link(char dir);
 		std::string get_directions();
 	};
 }

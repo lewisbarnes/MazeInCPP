@@ -1,36 +1,61 @@
 #include "stdafx.h"
 #include "AbstractRoom.h"
-AbstractRoom::AbstractRoom()
-{
-}
-
-AbstractRoom::AbstractRoom(std::string n)
+using namespace MazeInCPP;
+BaseRoom::BaseRoom(std::string n)
 {
 	name = n;
 }
 
-void AbstractRoom::set_link(char dir, AbstractRoom * room)
+void BaseRoom::set_link(char dir, BaseRoom * room)
 {
 	switch (tolower(dir))
 	{
 	case 'n':
 		north = room;
+		if (room != nullptr)
+		{
+			if (room->get_link('s') == nullptr)
+			{
+				room->set_link('s', this);
+			}
+		}
 		break;
 	case 'e':
 		east = room;
+		if (room != nullptr)
+		{
+			if (room->get_link('w') == nullptr)
+			{
+				room->set_link('w', this);
+			}
+		}
 		break;
 	case 's':
 		south = room;
+		if (room != nullptr)
+		{
+			if (room->get_link('n') == nullptr)
+			{
+				room->set_link('n', this);
+			}
+		}
 		break;
 	case 'w':
 		west = room;
+		if (room != nullptr)
+		{
+			if (room->get_link('e') == nullptr)
+			{
+				room->set_link('e', this);
+			}
+		}
 		break;
 	default:
 		break;
 	}
 }
 
-AbstractRoom * AbstractRoom::get_link(char dir)
+BaseRoom* BaseRoom::get_link(char dir)
 {
 	switch (tolower(dir))
 	{
@@ -47,17 +72,29 @@ AbstractRoom * AbstractRoom::get_link(char dir)
 	}
 }
 
-std::string AbstractRoom::get_directions()
+std::string BaseRoom::get_directions()
 {
 	std::string return_string;
-	get_link('n') ? return_string.append("(N)North ") : void();
-	get_link('e') ? return_string.append("(E)East ") : void();
-	get_link('s') ? return_string.append("(S)South ") : void();
-	get_link('w') ? return_string.append("(W)West ") : void();
+	if (get_link('n') != nullptr)
+	{
+		return_string.append("(N)North ");
+	}
+	if (get_link('e') != nullptr)
+	{
+		return_string.append("(E)East ");
+	}
+	if (get_link('s') != nullptr)
+	{
+		return_string.append("(S)South ");
+	}
+	if (get_link('w') != nullptr)
+	{
+		return_string.append("(W)West ");
+	}
 	return return_string;
 }
 
-std::string AbstractRoom::get_name()
+std::string BaseRoom::get_name()
 {
 	return name;
 }

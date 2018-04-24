@@ -8,6 +8,8 @@ namespace MazeInCPP
 	class MazeController
 	{
 	private:
+		enum MOVE_DIR { no_dir, n_dir, e_dir, s_dir, w_dir, t_dir, w_input };
+		std::map<MOVE_DIR, std::string> directions{ { n_dir,"north" },{ e_dir,"east" },{ s_dir,"south" },{ w_dir,"west" } };
 		Maze * current_maze;
 		void display_info();
 		bool collect_input();
@@ -15,8 +17,8 @@ namespace MazeInCPP
 		bool maze_from_file();
 		void main_menu();
 	public:
-		void start_loop();
 		MazeController();
+		void start_loop();
 	};
-	enum MOVE_DIR { no_dir, n_dir, e_dir, s_dir, w_dir, t_dir, w_input };
+	
 }
