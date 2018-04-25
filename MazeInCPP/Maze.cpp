@@ -95,7 +95,7 @@ void Maze::link_rooms(std::vector<std::string> room_strings, std::map<std::strin
 			std::string direct = "neswt";
 			int i = 0;
 			while (s != "") {
-				pos = s.find(';');
+				pos = s.find(';'); 
 				(s.substr(0,pos) != "-") ? room_map[room_name]->set_link(direct[i], room_map[s.substr(0,pos)]) : 0;
 				s.erase(0, pos + 1);
 				++i;
